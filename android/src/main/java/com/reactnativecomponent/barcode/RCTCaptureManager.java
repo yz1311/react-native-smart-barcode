@@ -138,10 +138,10 @@ public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
     }
 
     //扫码成功提示音
-    @ReactProp(name = "playBeep",defaultBoolean = true)
-    public void setPlayBeep(CaptureView view, boolean isBeep) {
-            view.setPlayBeep(isBeep);
-    }
+    //@ReactProp(name = "playBeep",defaultBoolean = true)
+    //public void setPlayBeep(CaptureView view, boolean isBeep) {
+    //        view.setPlayBeep(isBeep);
+    //}
 
 
     //手电筒
