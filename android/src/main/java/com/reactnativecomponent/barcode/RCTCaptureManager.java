@@ -137,12 +137,18 @@ public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
         }
     }
 
-  /*  //扫码成功提示音
+    //扫码成功提示音
     @ReactProp(name = "playBeep",defaultBoolean = true)
     public void setPlayBeep(CaptureView view, boolean isBeep) {
             view.setPlayBeep(isBeep);
     }
-*/
+
+
+    //手电筒
+    @ReactProp(name = "torchMode",defaultInt = 0)
+    public void setTorchMode(CaptureView view,int torchMode) {
+        view.setTorchMode(torchMode);
+    }
 
     @Override
     public
