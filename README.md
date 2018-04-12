@@ -223,6 +223,7 @@ scannerRectTop         | number | Yes      | 0         | determines the top shif
 scannerRectLeft        | number | Yes      | 0         | determines the left shift of scannerRect
 scannerLineInterval    | number | Yes      | 3000      | determines the interval of scannerLine's movement
 scannerRectCornerColor | string | Yes      | `#09BB0D` | determines the color of scannerRectCorner
+torchMode              | number | Yes      | 0         | toggle torch
 
 [0]: https://github.com/cyqresig/ReactNativeComponentDemos
 [1]: https://github.com/zxing/zxing
