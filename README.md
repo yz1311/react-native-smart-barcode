@@ -134,6 +134,7 @@ see [ReactNativeComponentDemos][0]
 
 Install the package from npm with `npm install react-native-smart-barcode --save`.
 Then, require it from your app's JavaScript files with `import Barcode from 'react-native-smart-barcode'`.
+Must use load the Barcode view after some millionseconds(eg.255ms),or cannot read barcode in ios(android is fine)
 
 ```js
 
