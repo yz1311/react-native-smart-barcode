@@ -8,6 +8,9 @@
 A smart barcode scanner component for React Native app.
 The library uses [https://github.com/zxing/zxing][1] to decode the barcodes for android, and also supports ios.
 
+
+`Warning:donot use RN0.53,it will break ios implemention`
+
 ## Preview
 
 ![react-native-smart-barcode-preview-ios][2]
@@ -134,7 +137,6 @@ see [ReactNativeComponentDemos][0]
 
 Install the package from npm with `npm install react-native-smart-barcode --save`.
 Then, require it from your app's JavaScript files with `import Barcode from 'react-native-smart-barcode'`.
-Must use load the Barcode view after some millionseconds(eg.255ms),or cannot read barcode in ios(android is fine)
 
 ```js
 
