@@ -680,6 +680,30 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
         }
     }
 
+    public void setTorchMode(int torchMode) {
+        Camera camera = CameraManager.get().getCamera();
+        if (null == camera) {
+            return;
+        }
+
+        Camera.Parameters parameters = camera.getParameters();
+        String value = parameters.getFlashMode();
+        switch (torchMode) {
+            case 1:
+                value = Camera.Parameters.FLASH_MODE_TORCH;
+                break;
+            case 0:
+                value = Camera.Parameters.FLASH_MODE_OFF;
+                break;
+        }
+
+        List<String> flashModes = parameters.getSupportedFlashModes();
+        if (flashModes != null && flashModes.contains(value)) {
+            parameters.setFlashMode(value);
+            camera.setParameters(parameters);
+        }
+    }
+
     /**
      * 开启闪光灯常亮
      */
@@ -949,16 +973,16 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
                     }else {*/
                     //ZOOM模式下 在结束两秒后隐藏seekbar 设置token为mZoomSeekBar用以在连续点击时移除前一个定时任务
 
-					/*mHandler.postAtTime(new Runnable() {
+                    /*mHandler.postAtTime(new Runnable() {
 
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
+                        @Override
+                        public void run() {
+                            // TODO Auto-generated method stub
                             if(popupWindow.isShowing()){
                                 popupWindow.dismiss();
                             }
-						}
-					}, progressBar,SystemClock.uptimeMillis()+5000);
+                        }
+                    }, progressBar,SystemClock.uptimeMillis()+5000);
 //                    }*/
                     break;
             }
