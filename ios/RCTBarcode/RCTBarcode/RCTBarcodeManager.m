@@ -11,6 +11,11 @@
 @implementation RCTBarcodeManager
 
 RCT_EXPORT_MODULE(RCTBarcode)
+    
++ (BOOL)requiresMainQueueSetup
+{
+    return YES;
+}
 
 RCT_EXPORT_VIEW_PROPERTY(scannerRectWidth, NSInteger)
 
