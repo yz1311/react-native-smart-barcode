@@ -1,6 +1,6 @@
 {
-  "name": "react-native-smart-barcode",
-  "version": "1.0.7",
+  "name": "@yz1311/react-native-smart-barcode",
+  "version": "1.1.0-beta7",
   "description": "A smart barcode scanner component for React Native app",
   "main": "Barcode.js",
   "scripts": {
@@ -9,6 +9,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yz1311/react-native-smart-barcode.git"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "keywords": [
     "react-native",

@@ -21,6 +21,7 @@ import PropTypes from 'prop-types'
 
 const BarcodeManager = Platform.OS == 'ios' ? NativeModules.Barcode : NativeModules.CaptureModule
 
+export const decodeQR = Platform.OS == 'ios' ? NativeModules.QRCodeLocalImage.decodeQR : NativeModules.CaptureModule.decodeQR;
 
 export default class Barcode extends Component {
 
@@ -79,6 +80,24 @@ export default class Barcode extends Component {
             this.startScan()
         }
     }
+}
+
+export const BarCodeTypes = {
+    upce: 'upce',
+    code39: 'code39',
+    //ios only
+    code39mod43: 'code39mod43',
+    ean13: 'ean13',
+    ean8: 'ean8',
+    code93: 'code93',
+    code128: 'code128',
+    pdf417: 'pdf417',
+    qr: 'qr',
+    aztec: 'aztec',
+    //ios only
+    interleaved2of5: 'interleaved2of5',
+    itf14: 'itf14',
+    datamatrix: 'datamatrix'
 }
 
 const NativeBarCode = requireNativeComponent(Platform.OS == 'ios' ? 'RCTBarcode' : 'CaptureView', Barcode)

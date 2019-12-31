@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C08AB2123BAF410003BE721 /* RCTQRCodeLocalImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C08AB2023BAF410003BE721 /* RCTQRCodeLocalImage.m */; };
 		9F0396621DB5F98F00393F03 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0396611DB5F98F00393F03 /* UIColor+Hex.m */; };
 		9F924BA81DAE17A5002340CC /* RectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F924BA71DAE17A5002340CC /* RectView.m */; };
 		9FCCD75D1DAC8DA800025BFD /* RCTBarcode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCCD75C1DAC8DA800025BFD /* RCTBarcode.m */; };
@@ -29,6 +30,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0C08AB1F23BAF410003BE721 /* RCTQRCodeLocalImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTQRCodeLocalImage.h; sourceTree = "<group>"; };
+		0C08AB2023BAF410003BE721 /* RCTQRCodeLocalImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTQRCodeLocalImage.m; sourceTree = "<group>"; };
 		9F0396601DB5F98F00393F03 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
 		9F0396611DB5F98F00393F03 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		9F924BA61DAE17A5002340CC /* RectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RectView.h; sourceTree = "<group>"; };
@@ -72,6 +75,8 @@
 		9FCCD75A1DAC8DA800025BFD /* RCTBarCode */ = {
 			isa = PBXGroup;
 			children = (
+				0C08AB1F23BAF410003BE721 /* RCTQRCodeLocalImage.h */,
+				0C08AB2023BAF410003BE721 /* RCTQRCodeLocalImage.m */,
 				9FCCD7911DACC77A00025BFD /* LineView.h */,
 				9FCCD7921DACC77A00025BFD /* LineView.m */,
 				9FCCD75B1DAC8DA800025BFD /* RCTBarcode.h */,
@@ -127,6 +132,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 9FCCD74F1DAC8DA800025BFD;
@@ -145,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FCCD75D1DAC8DA800025BFD /* RCTBarcode.m in Sources */,
+				0C08AB2123BAF410003BE721 /* RCTQRCodeLocalImage.m in Sources */,
 				9F0396621DB5F98F00393F03 /* UIColor+Hex.m in Sources */,
 				9FCCD7C01DACCCD500025BFD /* RCTBarcodeManager.m in Sources */,
 				9F924BA81DAE17A5002340CC /* RectView.m in Sources */,
@@ -250,6 +257,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../../react-native/React/**",
+					"$(SRCROOT)/../../../../../ios/Pods/Headers/Public/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -264,6 +272,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../../react-native/React/**",
+					"$(SRCROOT)/../../../../../ios/Pods/Headers/Public/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

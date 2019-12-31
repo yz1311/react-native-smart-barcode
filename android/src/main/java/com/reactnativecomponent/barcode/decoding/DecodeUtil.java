@@ -3,17 +3,22 @@ package com.reactnativecomponent.barcode.decoding;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.PlanarYUVLuminanceSource;
+import com.google.zxing.LuminanceSource;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.Hashtable;
+import java.util.logging.Logger;
 
 
 public class DecodeUtil {
@@ -41,7 +46,7 @@ public class DecodeUtil {
         return Bitmap.createScaledBitmap(weak.get(), (int)(width/scale), (int)(height/scale), true);
     }
 
-    public static String getStringFromQRCode(String path) {
+    public static String getStringFromQRCode(String path) throws Exception {
         String httpString = null;
 
         Bitmap bmp = convertToBitmap(path);
@@ -52,6 +57,9 @@ public class DecodeUtil {
 //            hints.put(DecodeHintType.CHARACTER_SET, "utf-8");
             hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
             hints.put(DecodeHintType.POSSIBLE_FORMATS, BarcodeFormat.QR_CODE);
+            if (data == null) {
+                throw new Exception("cannot load imag");
+            }
             PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(data,
                     bmp.getWidth(),
                     bmp.getHeight(),
@@ -62,16 +70,70 @@ public class DecodeUtil {
             BinaryBitmap bitmap1 = new BinaryBitmap(new HybridBinarizer(source));
             QRCodeReader reader2= new QRCodeReader();
             Result result = reader2.decode(bitmap1, hints);
-
-            httpString = result.getText();
+            if (result == null) {
+                throw new Exception("image format error");
+            } else {
+                return result.toString();
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            throw new Exception("decode error");
+        } finally {
+            if(bmp!=null) {
+                bmp.recycle();
+                bmp = null;
+            }
         }
+    }
 
-        bmp.recycle();
-        bmp = null;
+    /**
+     * 另外的方法解析
+     * @param path
+     * @return
+     * @throws Exception
+     */
+    public static String getStringFromQRCode1(String path) throws Exception {
+        Hashtable<DecodeHintType, String> hints = new Hashtable<DecodeHintType, String>();
+        hints.put(DecodeHintType.CHARACTER_SET, "utf-8"); // 设置二维码内容的编码
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        //options.inPreferredConfig = Bitmap.Config.RGB_565;
+        options.inJustDecodeBounds = true; // 先获取原大小
+        options.inJustDecodeBounds = false; // 获取新的大小
+        int divider = 100;
+        int sampleSize =options.outHeight;
+        options.inSampleSize = 1;
+        Bitmap scanBitmap = null;
+        scanBitmap = BitmapFactory.decodeFile(path,options);
+        while(divider<=800){
+            sampleSize =options.outHeight / divider;
+            if(sampleSize<=0)
+                sampleSize = 1;
+            options.inSampleSize = sampleSize;
 
-        return httpString;
+            scanBitmap = BitmapFactory.decodeFile(path,options);
+
+            if(sampleSize == 0){
+                sampleSize = 1;
+            }
+            if (scanBitmap == null) {
+                throw new Exception("cannot load imag");
+            }
+            RGBLuminanceSource source = new RGBLuminanceSource(scanBitmap);
+            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+            QRCodeReader reader = new QRCodeReader();
+            try {
+                Result result = reader.decode(bitmap, hints);
+                if (result == null) {
+                    throw new Exception("image format error");
+                } else {
+                    return result.toString();
+                }
+
+            } catch (Exception e) {
+                divider = divider +100;
+            }
+        }
+        throw new Exception("decode error");
     }
 
 
@@ -163,6 +225,62 @@ public class DecodeUtil {
                     yuv420sp[uvIndex++] = (byte) U;
                 }
             }
+        }
+    }
+
+
+    static class RGBLuminanceSource extends LuminanceSource {
+        private final byte[] luminances;
+
+        public RGBLuminanceSource(Bitmap bitmap) {
+            super(bitmap.getWidth(), bitmap.getHeight());
+            int width = bitmap.getWidth();
+            int height = bitmap.getHeight();
+            int[] pixels = new int[width * height];
+            bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+            // In order to measure pure decoding speed, we convert the entire image
+            // to a greyscale array
+            // up front, which is the same as the Y channel of the
+            // YUVLuminanceSource in the real app.
+            luminances = new byte[width * height];
+            for (int y = 0; y < height; y++) {
+                int offset = y * width;
+                for (int x = 0; x < width; x++) {
+                    int pixel = pixels[offset + x];
+                    int r = (pixel >> 16) & 0xff;
+                    int g = (pixel >> 8) & 0xff;
+                    int b = pixel & 0xff;
+                    if (r == g && g == b) {
+                        // Image is already greyscale, so pick any channel.
+                        luminances[offset + x] = (byte) r;
+                    } else {
+                        // Calculate luminance cheaply, favoring green.
+                        luminances[offset + x] = (byte) ((r + g + g + b) >> 2);
+                    }
+                }
+            }
+        }
+
+        @Override
+        public byte[] getRow(int y, byte[] row) {
+            if (y < 0 || y >= getHeight()) {
+                throw new IllegalArgumentException(
+                        "Requested row is outside the image: " + y);
+            }
+            int width = getWidth();
+            if (row == null || row.length < width) {
+                row = new byte[width];
+            }
+            System.arraycopy(luminances, y * width, row, 0, width);
+            return row;
+        }
+
+        // Since this class does not support cropping, the underlying byte array
+        // already contains
+        // exactly what the caller is asking for, so give it to them without a copy.
+        @Override
+        public byte[] getMatrix() {
+            return luminances;
         }
     }
 }

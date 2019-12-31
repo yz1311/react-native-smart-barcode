@@ -1,9 +1,10 @@
 package com.reactnativecomponent.barcode;
 
 import android.os.Environment;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.widget.Toast;
 
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -127,28 +128,28 @@ public class RCTCaptureModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void DecodeFromPath(final String path,
-                              final Callback errorCallback,
-                               final Callback successCallback) {
+    public void decodeQR(final String path,
+                              final Promise promise) {
 
             new Thread(new Runnable() {
                 public void run() {
+                    String resultStr = "";
                     try {
-                    String s = Environment.getExternalStorageDirectory()
-                            .getAbsolutePath() + "/" + "IMG_20161011_170552.jpg";
-                    //不加这个分号则不能自动添加代码
-
-                    String ResultStr = DecodeUtil.getStringFromQRCode(s);
-                        successCallback.invoke(ResultStr);
-
+                        resultStr = DecodeUtil.getStringFromQRCode(path);
+                        promise.resolve(resultStr);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        errorCallback.invoke(e.getMessage());
+                        //调用第二种方法解析
+                        try {
+                            resultStr = DecodeUtil.getStringFromQRCode1(path);
+                            promise.resolve(resultStr);
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                            promise.reject(e1.getMessage());
+                        }
                     }
                 }
             }).start();
-//        Toast.makeText(getCurrentActivity(), "DecodeFromPath:"+path, Toast.LENGTH_SHORT).show();
-
     }
 
 
