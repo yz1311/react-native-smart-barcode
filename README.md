@@ -1,15 +1,22 @@
 # react-native-smart-barcode
 
-[![npm](https://img.shields.io/npm/v/react-native-smart-barcode.svg)](https://www.npmjs.com/package/react-native-smart-barcode)
-[![npm](https://img.shields.io/npm/dm/react-native-smart-barcode.svg)](https://www.npmjs.com/package/react-native-smart-barcode)
-[![npm](https://img.shields.io/npm/dt/react-native-smart-barcode.svg)](https://www.npmjs.com/package/react-native-smart-barcode)
-[![npm](https://img.shields.io/npm/l/react-native-smart-barcode.svg)](https://github.com/react-native-component/react-native-smart-barcode/blob/master/LICENSE)
+[![npm](https://img.shields.io/npm/v/@yz1311/react-native-smart-barcode.svg)](https://www.npmjs.com/package/@yz1311/react-native-smart-barcode)
+[![npm](https://img.shields.io/npm/dm/@yz1311/react-native-smart-barcode.svg)](https://www.npmjs.com/package/@yz1311/react-native-smart-barcode)
+[![npm](https://img.shields.io/npm/dt/@yz1311/react-native-smart-barcode.svg)](https://www.npmjs.com/package/@yz1311/react-native-smart-barcode)
+[![npm](https://img.shields.io/npm/l/@yz1311/react-native-smart-barcode.svg)](https://github.com/react-native-component/react-native-smart-barcode/blob/master/LICENSE)
 
 A smart barcode scanner component for React Native app.
 The library uses [https://github.com/zxing/zxing][1] to decode the barcodes for android, and also supports ios.
 
+该库主要根据[react-native-smart-barcode](https://github.com/react-native-component/react-native-smart-barcode)进行修改，新增/修复了以下功能
 
-`Warning:donot use RN0.53,it will break ios implemention`
+* 适配RN新版本(目前支持0.61.x)
+* 添加闪光灯开关
+* 添加typescript定义文件
+* 支持读取图片中的二维码
+
+
+`Warning:do not use RN0.53,it will break ios implemention`
 
 ## Preview
 
@@ -18,7 +25,7 @@ The library uses [https://github.com/zxing/zxing][1] to decode the barcodes for 
 ## Installation
 
 ```
-npm install react-native-smart-barcode --save
+npm install @yz1311/react-native-smart-barcode@1.1.0-beta7 --save
 ```
 
 ## Notice
@@ -45,7 +52,7 @@ It can only be used greater-than-equal react-native 0.4.0 for ios, if you want t
 ```
 ...
 include ':react-native-smart-barcode'
-project(':react-native-smart-barcode').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-smart-barcode/android')
+project(':react-native-smart-barcode').projectDir = new File(rootProject.projectDir, '../node_modules/@yz1311/react-native-smart-barcode/android')
 ```
 
 * In `android/app/build.gradle`
@@ -135,8 +142,8 @@ see [ReactNativeComponentDemos][0]
 
 ## Usage
 
-Install the package from npm with `npm install react-native-smart-barcode --save`.
-Then, require it from your app's JavaScript files with `import Barcode from 'react-native-smart-barcode'`.
+Install the package from npm with `npm install @yz1311/react-native-smart-barcode@1.1.0-beta7 --save`.
+Then, require it from your app's JavaScript files with `import Barcode from '@yz1311/react-native-smart-barcode'`.
 
 ```js
 
@@ -150,7 +157,7 @@ import {
     Alert,
 } from 'react-native'
 
-import Barcode from 'react-native-smart-barcode'
+import Barcode from '@yz1311/react-native-smart-barcode'
 import TimerEnhance from 'react-native-smart-timer-enhance'
 
 class BarcodeTest extends Component {
